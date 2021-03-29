@@ -1,3 +1,4 @@
+#version 150
 //
 // Fragment Shader
 //
@@ -9,24 +10,14 @@ varying vec2  vTextVary;    // Textur-Koordinaten
 
 void main()
 {
-	float klim = 0.5;
-   //gl_FragColor = uColor;
+    const float klim = 0.9;
 	if (vTextVary.x > klim)
 	{
-		gl_FragColor = uColor;
-		//float d = klim; //+ (1.0 - (vTextVary.x * vTextVary.x));
-		//gl_FragColor = vec4(uColor.r, uColor.g, uColor.b, uColor.a * d);
-		
+		gl_FragColor = uColor;		
 	}
 	else
 	{
-		//float d = vTextVary.x / (klim * 1.2);
-		float d = vTextVary.x / klim;
-		d = d * d;
+		float d = smoothstep(0.0, 1.0, vTextVary.x / klim);
 		gl_FragColor = vec4(uColor.r, uColor.g, uColor.b, uColor.a * d);
-		//gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 	}
-// 	gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
-	
-	
 }

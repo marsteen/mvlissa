@@ -14,6 +14,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include <CGL_Shader.h>
 #include <NGlobalLog.h>
 #include <CFileIO.h>
@@ -21,15 +22,10 @@
 #include <MathDefines.h>
 
 using namespace NGlobalLog;
-
+using namespace std;
 
 extern void checkGlError(const char* op, const char* name);
 extern bool checkGlError(const char* op);
-
-
-
-
-
 
 //---------------------------------------------------------------------------
 //
@@ -432,8 +428,7 @@ static const char* LoadShaderFile(const char* ShaderFilename)
 GLuint CGL_Shader::LoadShader(GLenum shaderType, const char* ShaderSource) 
 {
 
-  gdstr << "CGL_Shader::LoadShader START type=" << shaderType << " size=" << strlen(ShaderSource);
-  gdlog();
+  cout << "CGL_Shader::LoadShader START type=" << shaderType << " size=" << strlen(ShaderSource) << endl;
   
   glewInit();
 
@@ -454,11 +449,8 @@ GLuint CGL_Shader::LoadShader(GLenum shaderType, const char* ShaderSource)
 				if (buf) 
 				{
 					glGetShaderInfoLog(shader, infoLen, NULL, buf);
-				  gdstr << "CGL_Shader::LoadShader: " << ShaderSource;
-				  gderr();
-					
-					gdstr << "Could not compile shader: " << shaderType << " " << buf;
-					gderr();
+				    cout << "CGL_Shader::LoadShader: " << ShaderSource;
+					cout << "Could not compile shader: " << shaderType << " " << buf;
 					free(buf);
 				}
 				glDeleteShader(shader);
@@ -467,17 +459,12 @@ GLuint CGL_Shader::LoadShader(GLenum shaderType, const char* ShaderSource)
 		}
 		else
 		{
-		  gdstr << "compile ok!";
-		  gdlog();
-		
+		  cout << "compile ok!" << endl;		
 		}
 	}
 	checkGlError("LoadShader", ShaderSource);
 
-  gdstr << "CGL_Shader::LoadShader OK";
-  gdlog();
-	
-	
+    cout << "CGL_Shader::LoadShader OK" << endl;
 	return shader;
 }
 
