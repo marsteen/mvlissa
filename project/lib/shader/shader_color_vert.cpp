@@ -1,0 +1,20 @@
+const char* shader_color_vert =
+
+"//\n"
+"// Vertex Shader\n"
+"//\n"
+"\n"
+"\n"
+"attribute vec4  aVertAttrib;\n"
+"attribute vec4  aColorAttrib;\n"
+"uniform  float  uAspect;\n"
+"varying vec4    vColorVary;\n"
+"\n"
+"void main()\n"
+"{\n"
+"  vec4 vertPos = aVertAttrib;\n"
+"  vColorVary   = aColorAttrib;\n"
+"  vertPos.x /= uAspect;\n"
+"  gl_Position = vertPos;\n"
+"}\n"
+"\n";

@@ -1,0 +1,16 @@
+//
+// Vertex Shader
+//
+
+
+attribute vec4  aVertAttrib;
+attribute vec2  aTextAttrib;
+varying   vec2  vTextVary;
+uniform float   uSeed;
+
+
+void main()
+{
+  vTextVary    = aTextAttrib;	
+  gl_Position  = aVertAttrib;
+}
