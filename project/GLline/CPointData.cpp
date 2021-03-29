@@ -1,7 +1,7 @@
 
-#include <CPointData.h>
+#include <GLline/CPointData.h>
 #include <CGL_Basic.h>
-#include <StaticLineHelp.hpp>
+#include <GLline/StaticLineHelp.hpp>
 //---------------------------------------------------------------------------
 //
 //

@@ -20,10 +20,10 @@
 #include <MathDefines.h>
 #include <CRandom.h>
 
-#include <CLineData.h>
-#include <CPointData.h>
-#include <CRingData.h>
-#include <CPointObject.h>
+#include <GLline/CLineData.h>
+#include <GLline/CPointData.h>
+#include <GLline/CRingData.h>
+#include <GLline/CPointObject.h>
 #include <CPlayObject.h>
 #include <CFrameBuffer.h>
 

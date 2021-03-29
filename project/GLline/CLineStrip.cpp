@@ -1,6 +1,6 @@
 
-#include <CLineData.h>
-#include <CLineStrip.h>
+#include <GLline/CLineData.h>
+#include <GLline/CLineStrip.h>
 
 
 

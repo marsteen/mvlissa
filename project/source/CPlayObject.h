@@ -2,8 +2,8 @@
 #ifndef CPlayObject_H
 #define CPlayObject_H
 
-#include <CPointObject.h>
-#include <CLineData.h>
+#include <GLline/CPointObject.h>
+#include <GLline/CLineData.h>
 
 class CPlayObject : public CLineData
 {

@@ -1,6 +1,6 @@
 
 #include <cstring>
-#include <CPointObject.h>
+#include <GLline/CPointObject.h>
 #include <CRandom.h>
 #include <CGL_Shader_Blurline.h>
 

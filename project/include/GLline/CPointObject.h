@@ -3,7 +3,7 @@
 
 #include <CVector2T.h>
 #include <CRectT.h>
-#include <CPointData.h>
+#include <GLline/CPointData.h>
 #include <CGL_Shader_Blurline.h>
 
 class CPointObject

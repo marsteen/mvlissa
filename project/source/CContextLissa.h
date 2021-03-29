@@ -22,7 +22,7 @@
 #include <CGL_Shader_Blurline.h>
 #include <CGL_Shader_Texture.h>
 #include <CGL_Shader_Noise.h>
-#include <CLineStrip.h>
+#include <GLline/CLineStrip.h>
 
 class CContextLissa : public CGL_Context
 {

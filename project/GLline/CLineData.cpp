@@ -1,8 +1,7 @@
 
-#include <CLineData.h>
 #include <CGL_Basic.h>
-#include <StaticLineHelp.hpp>
-
+#include <GLline/CLineData.h>
+#include <GLline/StaticLineHelp.hpp>
 #include <iostream>
 
 //#define LINE_W (1.0f / 25.0f)
