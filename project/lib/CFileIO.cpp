@@ -138,11 +138,11 @@ bool CFileIO::FileExists(const char* Filename)
 }
 */
 
-bool CFileIO::FileExists(const char* Filename) 
+bool CFileIO::FileExists(const char* Filename)
 {
-	struct stat buffer;   
-  return (stat (Filename, &buffer) == 0); 
-	
+	struct stat buffer;
+  return (stat (Filename, &buffer) == 0);
+
    //return access(Filename, F_OK) != -1;
 }
 
@@ -300,7 +300,7 @@ void* CFileIO::ReadFile(const char* Filename, int* nBytes)
 {
   char* buffer = NULL;
   *nBytes = CFileIO::GetFileSize(Filename);
-  if (nBytes > 0)
+  if (nBytes != nullptr)
   {
     if (OpenFileRead(Filename, ios::binary))
     {
@@ -780,13 +780,13 @@ EFileTypes CFileIO::GuessFileFormat(const char* Filename)
 	{
 		".IDAT",
 		".IDX",
-		".DAT",		
+		".DAT",
 		".JPG",
 		".TIF",
 		".PNG",
 		".TGA",
 		".RAW",
-		".GIF",		
+		".GIF",
 		NULL
 	};
 
@@ -872,8 +872,8 @@ bool CFileIO::Strcmpx(const char* s1, const char* s2)
 
 	int s = strcmp(bstr1, bstr2);
 
-	delete bstr2;
-	delete bstr1;
+	delete[] bstr2;
+	delete[] bstr1;
 
 	return s == 0;
 }
@@ -1065,7 +1065,7 @@ bool CFileIO::CreateDir(const char* NewFolder)
 char* CFileIO::NewString(const char* OldStr)
 {
   char* NewStr = NULL;
-  
+
   if (OldStr != NULL)
   {
 		NewStr = new char[strlen(OldStr) + 1];
@@ -1102,7 +1102,7 @@ char* CFileIO::ExtractFilename(const char* FullPathName)
 //---------------------------------------------------------------------------
 //
 // Klasse:    CFileIO
-// Methode:   WriteFromFile 
+// Methode:   WriteFromFile
 //
 //
 //---------------------------------------------------------------------------

@@ -3,7 +3,8 @@ project("mvlissa")
 
 message("System: ${CMAKE_SYSTEM_NAME}")
 
-include_directories(include source)
+include_directories(include source /usr/include/GL /usr/local/include)
+link_directories(./lib-extern/mac)
 
 set(SRCBASE "source")
 set(LIBBASE "lib")
@@ -57,7 +58,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "MSYS")
     #
     SET(SYSTEM_NAME "windows")
     target_link_libraries(${CMAKE_PROJECT_NAME}
-        glu32        
+        glu32
         opengl32
         gdi32
         winmm
@@ -82,9 +83,32 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     #
     # *TODO*
     SET(SYSTEM_NAME "mac")
-endif()    
-    
-    
+
+
+
+    target_link_libraries(${CMAKE_PROJECT_NAME}
+        SDL2
+        GLEW
+        iconv
+        "-framework IOKit"
+        "-framework Foundation"
+        "-framework Cocoa"
+        "-framework CoreAudio"
+        "-framework Carbon"
+        "-framework OpenGL"
+        "-framework ForceFeedback"
+        "-framework AudioUnit"
+        )
+endif()
+
+
+#LIBPATH    = -L../lib-extern/mac
+#  INCPATH   += -I/usr/include/GL -I/usr/local/include/GL
+#  FRAMEWORKS = -framework IOKit \
+#               -framework Foundation \
+#               -framework Cocoa   -framework CoreAudio -framework Carbon -framework OpenGL  -framework ForceFeedback  -framework AudioUnit
+#  LDFLAGS   += -lSDL2 $(FRAMEWORKS) -L../lib-extern/mac -lpng -ljpeg -lGLEW -lz  -liconv  -lfreetype
+
 
 file(MAKE_DIRECTORY ${BINDIR})
-set_target_properties(mvlissa PROPERTIES OUTPUT_NAME ../${BINDIR}/mvlissa)    
+set_target_properties(mvlissa PROPERTIES OUTPUT_NAME ../${BINDIR}/mvlissa)

@@ -59,11 +59,11 @@ static const char* StaticOpenGLError(int e)
 	}
 	return "unknown";
 }
-		
+
 
 // ---------------------------------------------------------------------------
 //
-// KLASSE        : global 
+// KLASSE        : global
 // METHODE       : checkGlError
 //
 // ---------------------------------------------------------------------------
@@ -74,11 +74,11 @@ bool checkGlError(const char* op)
 	for (GLint error = glGetError(); error; error	= glGetError())
 	{
 	  gdstr.setf( std::ios::hex, std::ios::basefield);
-		gdstr << "after " << op << " glError: 0x" << error 
-		      << " (" << StaticOpenGLError(error) << ") ";	  
+		gdstr << "after " << op << " glError: 0x" << error
+		      << " (" << StaticOpenGLError(error) << ") ";
 		gdlog();
 		gdstr.setf(std::ios::dec, std::ios::basefield);
-		
+
 		r = true;
 	}
 	return r;
@@ -86,7 +86,7 @@ bool checkGlError(const char* op)
 
 // ---------------------------------------------------------------------------
 //
-// KLASSE        : global 
+// KLASSE        : global
 // METHODE       : checkGlErrorCritical
 //
 // Nach der Ausgabe eines Fehlers wird die Fehlerausgabe deaktiviert
@@ -95,12 +95,12 @@ bool checkGlError(const char* op)
 
 void checkGlErrorCritical(const char* op)
 {
-	
+
 	if (GlobalDebugEnabled)
-	{	
+	{
 		if (checkGlError(op))
-		{		  
-			GlobalDebugEnabled = false;			
+		{
+			GlobalDebugEnabled = false;
 		}
 	}
 }
@@ -108,7 +108,7 @@ void checkGlErrorCritical(const char* op)
 
 // ---------------------------------------------------------------------------
 //
-// KLASSE        : global 
+// KLASSE        : global
 // METHODE       : checkGlError
 //
 // ---------------------------------------------------------------------------
@@ -133,32 +133,32 @@ void checkGlError(const char* op, const char* name)
 //
 //---------------------------------------------------------------------------
 
-CGL_Context::CGL_Context() 
+CGL_Context::CGL_Context()
 {
 	mWidth       = 0;
 	mHeight      = 0;
-	
+
 	mTransformAkt = &mTransformMap;
-	
+
 	mTransformMap.mScaleFaktor = 0.5f;
 	mTransformMap.mTranslate.Set(0.0f, 0.0f);
 	mTransformMap.mType = 1;
-	
+
 	mTransformThumb.mScaleFaktor = 0.25f;
 	mTransformThumb.mTranslate.Set(0.0f, 0.0f);
 	mTransformThumb.mType = 0;
 	mFavTextureHandle = 0;
-	
-	
-	
-
-} 
 
 
-static const char* StaticUniformLocation[] = 
+
+
+}
+
+
+static const char* StaticUniformLocation[] =
 {
-	"uShaderMode", 
-	"uColor", 
+	"uShaderMode",
+	"uColor",
 	"uUseTexture"
 	"uUseShadow",
 	"uUseColor",
@@ -183,21 +183,21 @@ void CGL_Context::InitShaderModes()
 	gdlog();
 
 	mShaderModes.clear();
-	
+
 	for (int i = 0; StaticUniformLocation[i] != NULL; i++)
-	{	
+	{
 		int uniloc =  glGetUniformLocation(mProgram, StaticUniformLocation[i]);
-		
-		
+
+
 		gdstr << "  " << StaticUniformLocation[i] << " = " << uniloc;
 		gdlog();
-		
+
 		mShaderModes.push_back(uniloc);
-	}	
-	
+	}
+
 	gdstr << "CGL_Context::InitShaderModes OK";
 	gdlog();
-	
+
 }
 
 
@@ -230,12 +230,12 @@ bool CGL_Context::SetUniformVec2(const char* UniName, const float* v) const
   GLint val = glGetUniformLocation(mProgram, UniName);
 	checkGlError("glGetUniformLocation");
 
-  
+
   if (val == -1)
   {
   	// Fehler
   	gdstr << "Uniform not found:" << UniName;
-  	gderr();  	
+  	gderr();
   	r = false;
 
   }
@@ -263,12 +263,12 @@ bool CGL_Context::SetUniformVec3(const char* UniName, const float* v) const
   GLint val = glGetUniformLocation(mProgram, UniName);
 	checkGlError("glGetUniformLocation", UniName);
 
-  
+
   if (val == -1)
   {
   	// Fehler
   	gdstr << "Uniform not found:" << UniName;
-  	gderr();  	
+  	gderr();
   	r = false;
 
   }
@@ -296,12 +296,12 @@ bool CGL_Context::SetUniformVec4(const char* UniName, const float* v) const
   GLint val = glGetUniformLocation(mProgram, UniName);
 	checkGlError("glGetUniformLocation", UniName);
 
-  
+
   if (val == -1)
   {
   	// Fehler
   	gdstr << "Uniform not found:" << UniName;
-  	gderr();  	
+  	gderr();
   	r = false;
 
   }
@@ -422,13 +422,13 @@ bool CGL_Context::SetUniformInt(const char* UniName, int i) const
 	bool r;
   GLint val = glGetUniformLocation(mProgram, UniName);
   checkGlError("glGetUniformLocation", UniName);
-  
+
   if (val == -1)
   {
   	// Fehler
   	gdstr << "Uniform not found:" << UniName;
   	gderr();
-  	
+
   	r = false;
 
   }
@@ -454,13 +454,13 @@ bool CGL_Context::SetUniformFloat(const char* UniName, float f) const
 	bool r;
   GLint val = glGetUniformLocation(mProgram, UniName);
   checkGlError("glGetUniformLocation", UniName);
-  
+
   if (val == -1)
   {
   	// Fehler
   	gdstr << "Uniform not found:" << UniName;
   	gderr();
-  	
+
   	r = false;
 
   }
@@ -476,23 +476,23 @@ bool CGL_Context::SetUniformFloat(const char* UniName, float f) const
 
 
 
-void CGL_Context::SetUniformInt(int uloc, int i) const               
+void CGL_Context::SetUniformInt(int uloc, int i) const
 { 	glUniform1i(mShaderModes[uloc], i); }
 
-void CGL_Context::SetUniformMatrix(int uloc, const float* mat) const 
+void CGL_Context::SetUniformMatrix(int uloc, const float* mat) const
 { 	glUniformMatrix4fv(mShaderModes[uloc], 1, GL_FALSE, mat); }
 
-void CGL_Context::SetUniformVec4(int uloc, const float* v) const 
+void CGL_Context::SetUniformVec4(int uloc, const float* v) const
 { 	glUniform4fv(mShaderModes[uloc], 1, v); }
 
-void CGL_Context::SetUniformVec3(int uloc, const float* v) const 
+void CGL_Context::SetUniformVec3(int uloc, const float* v) const
 { 	glUniform3fv(mShaderModes[uloc], 1, v); }
 
-void CGL_Context::SetUniformVec2(int uloc, const float* v) const 
+void CGL_Context::SetUniformVec2(int uloc, const float* v) const
 { 	glUniform2fv(mShaderModes[uloc], 1, v); }
 
 
-void CGL_Context::SetUniformFloat(int uloc, const float f) const 
+void CGL_Context::SetUniformFloat(int uloc, const float f) const
 { 	glUniform1f(mShaderModes[uloc], f); }
 
 
@@ -516,7 +516,7 @@ bool CGL_Context::SetUniformMatrix(const char* UniName, const float* mat) const
   if (val == -1)
   {
   	gdstr << "Uniform not found:" << UniName;
-  	gderr();  
+  	gderr();
   	// Fehler
   	r = false;
   }
@@ -603,7 +603,7 @@ inline int Imax(int a, int b)
 {
 	return (a > b) ? a : b;
 }
-	
+
 
 //---------------------------------------------------------------------------
 //
@@ -622,27 +622,27 @@ bool CGL_Context::Init(int w, int h)
   bool r = false;
 	mWidth  = w;
 	mHeight = h;
-	
+
 	mAspect = float(w) / mHeight;
-	
+
 	mOrientation = (mAspect > 1.0) ? EORIENT_HORIZONTAL : EORIENT_VERTICAL;
-	
+
 	if (SetupGraphics())
 	{
-		glViewport(0, 0, w, h);			
-		checkGlError("glViewport");	
+		glViewport(0, 0, w, h);
+		checkGlError("glViewport");
 		r = true;
 	}
 	else
 	{
 		exit(0);
 	}
-	
+
 //	InitShaderModes();
-	
-	
+
+
 	return r;
-	
+
 }
 
 
@@ -655,13 +655,13 @@ bool CGL_Context::Init(int w, int h)
 //
 //---------------------------------------------------------------------------
 
-float CGL_Context::DpiScale() const 
-{ 
+float CGL_Context::DpiScale() const
+{
 	// ca. 0.5 fuer Retina
 	// ca. 1.0 fuer normale Aufloesung
-	
+
 	return  1000.0 / Tmax(mWidth, mHeight);
-	
+
 }
 
 //---------------------------------------------------------------------------
@@ -675,11 +675,11 @@ float CGL_Context::DpiScale() const
 void CGL_Context::SetViewport(int w, int h)
 {
   mWidth  = w;
-  mHeight = h; 
-  
+  mHeight = h;
+
   mAspect = float(w) / mHeight;
-	mOrientation = (mAspect > 1.0) ? EORIENT_HORIZONTAL : EORIENT_VERTICAL;	
-	glViewport(0, 0, w, h);			
+	mOrientation = (mAspect > 1.0) ? EORIENT_HORIZONTAL : EORIENT_VERTICAL;
+	glViewport(0, 0, w, h);
 }
 
 //---------------------------------------------------------------------------
@@ -695,29 +695,29 @@ static const char* LoadShaderFile(const char* ShaderFilename)
   CFileIO fio;
   int FileSize;
   return (const char*) fio.ReadFile(ShaderFilename, &FileSize);
-} 
+}
 
- 
-//  
+
+//
 
 //---------------------------------------------------------------------------
 //
 // Klasse:  CGL_Context
 // Methode: LoadShader
-// 
+//
 //
 //---------------------------------------------------------------------------
 
-GLuint CGL_Context::LoadShader(GLenum shaderType, const char* ShaderSource) 
+GLuint CGL_Context::LoadShader(GLenum shaderType, const char* ShaderSource)
 {
 
   gdstr << "CGL_Context::LoadShader START type=" << shaderType << " size=" << strlen(ShaderSource);
   gdlog();
-  
+
   glewInit();
 
 	GLuint shader = glCreateShader(shaderType);
-	if (shader) 
+	if (shader)
 	{
 		glShaderSource(shader, 1, &ShaderSource, NULL);
 		glCompileShader(shader);
@@ -727,15 +727,15 @@ GLuint CGL_Context::LoadShader(GLenum shaderType, const char* ShaderSource)
 		{
 			GLint infoLen = 0;
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-			if (infoLen) 
+			if (infoLen)
 			{
 				char* buf = (char*) malloc(infoLen);
-				if (buf) 
+				if (buf)
 				{
 					glGetShaderInfoLog(shader, infoLen, NULL, buf);
 				  gdstr << "CGL_Context::LoadShader: " << ShaderSource;
 				  gderr();
-					
+
 					gdstr << "Could not compile shader: " << shaderType << " " << buf;
 					gderr();
 					free(buf);
@@ -749,8 +749,8 @@ GLuint CGL_Context::LoadShader(GLenum shaderType, const char* ShaderSource)
 
   gdstr << "CGL_Context::LoadShader OK";
   gdlog();
-	
-	
+
+
 	return shader;
 }
 
@@ -762,32 +762,32 @@ GLuint CGL_Context::LoadShader(GLenum shaderType, const char* ShaderSource)
 //
 //---------------------------------------------------------------------------
 
-GLuint CGL_Context::CreateProgram(const char* pVertexSource, const char* pFragmentSource) 
+GLuint CGL_Context::CreateProgram(const char* pVertexSource, const char* pFragmentSource)
 {
 	gdstr << "CGL_Context::CreateProgram START";
 	gdlog();
-	
-	
+
+
 	if (pVertexSource == NULL)
 	{
 	  gdstr << "Vertex Shader Source = NULL";
-	  gdlog;	
+	  gdlog();
 	}
- 
-	
-	
+
+
+
     GLuint vertexShader = LoadShader(GL_VERTEX_SHADER, pVertexSource);
-    if (!vertexShader) 
+    if (!vertexShader)
 		{
       return 0;
     }
 
    gdstr << "LoadShader vertexShader ok!";
 	 gdlog();
-  
-    
+
+
     GLuint pixelShader = LoadShader(GL_FRAGMENT_SHADER, pFragmentSource);
-    if (!pixelShader) 
+    if (!pixelShader)
 		{
       return 0;
     }
@@ -806,14 +806,14 @@ GLuint CGL_Context::CreateProgram(const char* pVertexSource, const char* pFragme
 			glLinkProgram(program);
 			GLint linkStatus = GL_FALSE;
 			glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-			if (linkStatus != GL_TRUE) 
+			if (linkStatus != GL_TRUE)
 			{
 				GLint bufLength = 0;
 				glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
-				if (bufLength) 
+				if (bufLength)
 				{
 					char* buf = (char*) malloc(bufLength);
-					if (buf) 
+					if (buf)
 					{
 						glGetProgramInfoLog(program, bufLength, NULL, buf);
 						gdstr << "Could not link program: "  << buf;
@@ -848,29 +848,29 @@ bool CGL_Context::SetupGraphics()
 
   gdstr << "===== SetupGraphics START";
   gdlog();
-  
+
 	printGLString("Version", GL_VERSION);
 	printGLString("Vendor", GL_VENDOR);
 	printGLString("Renderer", GL_RENDERER);
 	//printGLString("Extensions", GL_EXTENSIONS);
-	
-#if 0	
+
+#if 0
 //	const char* StaticVertexShader   = shader_vert;
 //	const char* StaticFragmentShader = shader_frag;
-	
-		
+
+
 //	gdstr << "setupGraphics(" << w << "," << h << ")";
 	gdlog();
-//	
+//
 	if (StaticVertexShader == NULL)
 	{
 	  gdstr << "StaticVertexShader = NULL";
-	  gderr(); 
+	  gderr();
 	  r = false;
 	}
-	
-	
-	
+
+
+
 
 	if (StaticFragmentShader == NULL)
 	{
@@ -878,7 +878,7 @@ bool CGL_Context::SetupGraphics()
 	  gderr();
 	  r = false;
 	}
-	
+
   if (r)
   {
 		mProgram = CreateProgram(StaticVertexShader, StaticFragmentShader);
@@ -888,25 +888,25 @@ bool CGL_Context::SetupGraphics()
 			gderr();
 			r = false;
 		}
-		
+
 		if (r)
-		{		
+		{
 			mVertAttrib  = glGetAttribLocation(mProgram, "aVertAttrib");
 			checkGlError("glGetAttribLocation VertAttrib");
 			mTextAttrib  = glGetAttribLocation(mProgram, "aTextAttrib");
 			checkGlError("glGetAttribLocation TextAttrib");
-			mColorAttrib = glGetAttribLocation(mProgram, "aColorAttrib");		
+			mColorAttrib = glGetAttribLocation(mProgram, "aColorAttrib");
 			checkGlError("glGetAttribLocation ColorAttrib");
-			
+
 			//"glGetAttribLocation(\"aPosition\") = %d\n",	mVertAttrib);
-			
+
 		}
 	}
-#endif	
+#endif
   gdstr << "===== SetupGraphics END r=" << r;
   gdlog();
-	
-	
+
+
 	return r;
 }
 
@@ -925,8 +925,8 @@ void CGL_Context::TransformModelToScreen(float mx, float my, float* sx, float* s
 	float xo =  mTransformMap.mTranslate.x;
   float yo =  mTransformMap.mTranslate.y;
 	float s  =  mTransformMap.mScaleFaktor;
-	
-	
+
+
 	*sx = (mx  + xo) * s;
 	*sy = (my  + yo) * s;
 }
@@ -951,5 +951,5 @@ void CGL_Context::TransformScreenToModel(float sx, float sy, float* mx, float* m
 
 }
 
- 
+
 
