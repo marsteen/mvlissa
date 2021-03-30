@@ -1,6 +1,6 @@
 const char* shader_blurline_frag =
 
-"#version 150\n"
+"#version 120\n"
 "//\n"
 "// Fragment Shader\n"
 "//\n"

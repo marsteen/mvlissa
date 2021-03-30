@@ -75,7 +75,7 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         GL
         SDL2
         GLEW
-        libjpeg.so.62)
+        )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     #
     # Mac OS

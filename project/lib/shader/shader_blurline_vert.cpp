@@ -1,6 +1,6 @@
 const char* shader_blurline_vert =
 
-"#version 150\n"
+"#version 120\n"
 "//\n"
 "// Vertex Shader\n"
 "//\n"
