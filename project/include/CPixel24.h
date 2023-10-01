@@ -15,20 +15,13 @@
 
 #ifndef CPIXEL24_H
 #define CPIXEL24_H
-
-
-#ifndef byte
-typedef unsigned short word;
-typedef unsigned char byte;
-#endif
-
 #include <CPixel.h>
 
 class CPixel24 : public CPixel
 {
 	public:
 
-  	byte rgb[3];
+  	uint8_t rgb[3];
 
     void operator=(const CPixel24& p2)
     {
@@ -53,8 +46,8 @@ class CPixel24 : public CPixel
 
     bool operator==(const CPixel24& p2) const;
     bool operator!=(const CPixel24& p2) const;
-		void Set(word w1, byte m1);
-		void Set(byte r, byte g, byte b);
+		void Set(uint16_t w1, uint8_t m1);
+		void Set(uint8_t r, uint8_t g, uint8_t b);
 		void Set(unsigned int b);
 		void SwapRedBlue(void);
 		int  Brightness(void);

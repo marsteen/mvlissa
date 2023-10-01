@@ -1,5 +1,5 @@
 #!/bin/sh
 #
-git commit -a -F commit-message.txt
+git commit -a -m "${1}"
 
 

@@ -13,12 +13,9 @@
 //***************************************************************************
 
 #include <iostream>
-
-using namespace std;
-
 #include <CPixel24.h>
 
-
+using namespace std;
 
 //---------------------------------------------------------------------------
 //
@@ -63,7 +60,7 @@ bool CPixel24::operator!=(const CPixel24& p2) const
 
 void CPixel24::SwapRedBlue()
 {
-	byte swap = rgb[0];
+	uint8_t swap = rgb[0];
 
 	rgb[0] = rgb[2];
 	rgb[2] = swap;
@@ -78,7 +75,7 @@ void CPixel24::SwapRedBlue()
 //
 //---------------------------------------------------------------------------
 
-void CPixel24::Set(byte r, byte g, byte b)
+void CPixel24::Set(uint8_t r, uint8_t g, uint8_t b)
 {
 	rgb[0] = r;
 	rgb[1] = g;

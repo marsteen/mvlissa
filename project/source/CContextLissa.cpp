@@ -90,6 +90,7 @@ void CContextLissa::CalcLissa(TLinePoints& LissaPoints, float horInit, float ver
 void CContextLissa::KeyPress(int key, bool down)
 {
     float w = 1.0f;
+    cout << "key=" << key << " down=" << down << endl;
     if (down)
     {
         switch (key)
@@ -141,11 +142,13 @@ void CContextLissa::KeyPress(int key, bool down)
             case 'v':
                 
                 LissaWidth -= 0.01;
+                cout << "LissaWidth=" << LissaWidth << endl;
                 break;
 
             case 'b':
                 
                 LissaWidth += 0.01;
+                cout << "LissaWidth=" << LissaWidth << endl;
                 break;
                 
             case 'i':
@@ -234,10 +237,10 @@ void CContextLissa::Draw2D()
     static const float ColorBlue[]  = { 0.5f, 0.5f, 0.5f, 1.0f }; //
     static const float ColorGrey[]  = 
     { 
-      0.4f, 0.1f, 0.0f, 1.0f, // links unten
-      0.4f, 0.1f, 0.0f, 1.0f, // rechts unten
-      0.4f, 0.1f, 0.0f, 1.0f, // rechts oben
-      0.4f, 0.1f, 0.0f, 1.0f, // links oben
+      0.1f, 0.1f, 0.1f, 1.0f, // links unten
+      0.1f, 0.1f, 0.1f, 1.0f, // rechts unten
+      0.1f, 0.1f, 0.1f, 1.0f, // rechts oben
+      0.1f, 0.1f, 0.1f, 1.0f, // links oben
     };
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -245,7 +248,7 @@ void CContextLissa::Draw2D()
     
     mColorShader->UseProgram();
     mColorShader->SetUniformFloat("uAspect", mAspect);
-    CGL_Basic::DrawQuad(mColorShader, -1.0, -1.0f,  1.0f, 1.0f, ColorGrey);
+    //CGL_Basic::DrawQuad(mColorShader, -1.0, -1.0f,  1.0f, 1.0f, ColorGrey);
 
     mBlurlineShader->UseProgram();
     mBlurlineShader->SetUniformFloat("uAspect", mAspect);

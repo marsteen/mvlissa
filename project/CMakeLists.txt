@@ -4,7 +4,7 @@ project("mvlissa")
 message("System: ${CMAKE_SYSTEM_NAME}")
 
 include_directories(include source /usr/include/GL /usr/local/include)
-link_directories(./lib-extern/mac)
+#link_directories(./lib-extern/mac)
 
 set(SRCBASE "source")
 set(LIBBASE "lib")
@@ -73,9 +73,9 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     #
     SET(SYSTEM_NAME "linux")
     target_link_libraries(${CMAKE_PROJECT_NAME}
-        GL
         SDL2
         GLEW
+        GL
         )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     #
