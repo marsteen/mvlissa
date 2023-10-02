@@ -1,5 +1,0 @@
-#!/bin/sh
-#
-git commit -a -m "${1}"
-
-

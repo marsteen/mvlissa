@@ -52,7 +52,7 @@ add_executable(mvlissa
            ${GLBASE}/CPointObject.cpp
            ${GLBASE}/CLineStrip.cpp)
 
-if (CMAKE_SYSTEM_NAME STREQUAL "MSYS")
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     #
     # Windows
     #
@@ -62,7 +62,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "MSYS")
         opengl32
         gdi32
         winmm
-        jpeg62
+        jpeg
         SDL2
         glew32
         png
