@@ -77,6 +77,8 @@ class CSdlApp
         bool mFullscreen;
         int mXres;
         int mYres;
+        int mArgsXres;
+        int mArgsYres;
         int mWindowWidth;
         int mWindowHeight;
         float mAspect;

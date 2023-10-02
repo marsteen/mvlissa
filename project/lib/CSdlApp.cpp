@@ -17,7 +17,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <NStringTool.h>
@@ -44,6 +43,10 @@ CSdlApp::CSdlApp()
     mLeftMouseButton = false;
     mRightMouseButton = false;
     mMiddleMouseButton = false;
+    mXres = 0;
+    mYres = 0;
+    mArgsXres = 0;
+    mArgsYres = 0;
 }
 
 
@@ -212,16 +215,29 @@ void CSdlApp::ShowOpenGLError(const char* Titel)
 
 void CSdlApp::ParseArgVec(const vector<string>& ArgStr)
 {
+    std::cout << "ParseArgVec args=" << ArgStr.size() << endl;
     for (int i = 0; i < ArgStr.size(); i++)
     {
-        /*
-         * if (ArgStr[i] == "-w800x600")
-         * {
-         *    mFullscreen = false;
-         *    mXres = 800;
-         *    mYres = 600;
-         * }
-         */
+        if (ArgStr[i] == "-w800x600")
+        {
+            mArgsXres = 800;
+            mArgsYres = 600;
+        }
+        else
+        if (ArgStr[i] == "-w1280x720")
+        {
+            mArgsXres = 1280;
+            mArgsYres = 720;
+        }
+
+        else
+        if (ArgStr[i] == "-w1920x1080")
+        {
+            mArgsXres = 1920;
+            mArgsYres = 1080;
+        }
+        std::cout << "desired resolution: " << mArgsXres << "x" << mArgsYres << std::endl;
+         
     }
 }
 
@@ -455,22 +471,20 @@ void CSdlApp::SetViewport(int w, int h)
 bool CSdlApp::InitScreen()
 {
     bool r = true;
-
-
-
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-
-
-    mXres = 1920;
-    mYres = 1080;
+    
+    std::cout << "xres=" << mXres << " yres=" << mYres << std::endl;
+    std::cout << "ArgsXres=" << mArgsXres << " ArgsYres=" << mArgsYres << std::endl;
+    
 
     mSdlWindow = SDL_CreateWindow("basicsdl",
-            0,
-            0,
-            0, 0,
-            SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL);
+            0,0,
+            mArgsXres,
+            mArgsYres,
+            SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS | SDL_WINDOW_OPENGL);
+            
+    SDL_SetWindowFullscreen(mSdlWindow, true);
 
 
     SDL_GLContext maincontext = SDL_GL_CreateContext(mSdlWindow);
@@ -487,7 +501,7 @@ bool CSdlApp::InitScreen()
 
     if (mSdlWindow == NULL)
     {
-        //GlobalDebug("***** mSdlWindow == NULL", DBG_INIT);
+        std::cout << "***** mSdlWindow == NULL" << std::endl;
     }
     SDL_GL_SetSwapInterval(1);
 
@@ -496,7 +510,7 @@ bool CSdlApp::InitScreen()
 
     if (mSdlWindow == NULL)
     {
-        //GlobalDebugT("Fehler beim Umschalten der Aufloesung ", SDL_GetError(), DBG_INIT);
+        cout << "***** Fehler beim Umschalten der Aufloesung: " << SDL_GetError() << std::endl;
         r = false;
     }
     InitGame();

@@ -71,14 +71,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 int main(int argc, char* argv[])
 {
     CSdlApp* SdlApp = new CSDLblurline;
-
     GlobalArg0 = argv[0];
 
-    //GlobalDebugInit();
-
-    //GlobalDebugT("argv[0]=", argv[0], DBG_MAPS);
-
-#if 1
 #ifdef __APPLE__
     {
         char pa[512];
@@ -88,7 +82,6 @@ int main(int argc, char* argv[])
         chdir(AppFolder.c_str());
         //GlobalDebugT("AppFolder=", AppFolder, DBG_MAPS);
     }
-#endif
 #endif
 
     if (SdlApp->Init())

@@ -43,7 +43,7 @@ CSDLblurline::CSDLblurline()
 
 void CSDLblurline::ParseArgVec(const std::vector<std::string>& ArgStr)
 {
-    //GlobalDebugT("ArgStr.size()=", ArgStr.size(), DBG_MAPS);
+    CSdlApp::ParseArgVec(ArgStr);
 
     if (ArgStr.size() > 0)
     {
