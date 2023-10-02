@@ -224,18 +224,29 @@ void CSdlApp::ParseArgVec(const vector<string>& ArgStr)
             mArgsYres = 600;
         }
         else
+        if (ArgStr[i] == "-w960x540")
+        {
+            mArgsXres = 960;
+            mArgsYres = 540;
+        }
+        else
         if (ArgStr[i] == "-w1280x720")
         {
             mArgsXres = 1280;
             mArgsYres = 720;
         }
-
         else
         if (ArgStr[i] == "-w1920x1080")
         {
             mArgsXres = 1920;
             mArgsYres = 1080;
         }
+        else
+        {
+            cout << "***** invalid arg:" << ArgStr[i] << endl;
+            exit(0);
+        }
+            
         std::cout << "desired resolution: " << mArgsXres << "x" << mArgsYres << std::endl;
          
     }
@@ -419,7 +430,7 @@ bool CSdlApp::Init()
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        //GlobalDebug("***** SDL konnte nicht initialisiert werden", DBG_INIT);
+        std::cout << "***** SDL konnte nicht initialisiert werden" << std::endl;
         r = false;
     }
 
@@ -482,13 +493,15 @@ bool CSdlApp::InitScreen()
             0,0,
             mArgsXres,
             mArgsYres,
-            SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_BORDERLESS | SDL_WINDOW_OPENGL);
+            SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS | SDL_WINDOW_OPENGL);
             
-    SDL_SetWindowFullscreen(mSdlWindow, true);
+            
+    SDL_Delay(5000);
+    //SDL_SetWindowFullscreen(mSdlWindow, SDL_WINDOW_FULLSCREEN);
 
+   
 
     SDL_GLContext maincontext = SDL_GL_CreateContext(mSdlWindow);
-
     {
         SDL_DisplayMode DisplayMode;
         SDL_GetCurrentDisplayMode(0, &DisplayMode);
@@ -496,7 +509,7 @@ bool CSdlApp::InitScreen()
         mXres = DisplayMode.w;
         mYres = DisplayMode.h;
     }
-
+ 
 
 
     if (mSdlWindow == NULL)

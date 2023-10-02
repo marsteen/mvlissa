@@ -247,7 +247,7 @@ void CContextLissa::Draw2D()
     static float verInit;
 
     //cout << "Draw2D() START" << endl;
-    static const float ColorWhite[] = { 1.0f, 0.5f, 0.0f, 1.0f };   //
+    static const float ColorWhite[] = { 0.8f, 0.4f, 0.0f, 1.0f };   //
     static const float ColorBlue[] = { 0.5f, 0.5f, 0.5f, 1.0f };    //
     static const float ColorGrey[] =
     {
