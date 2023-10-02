@@ -38,10 +38,12 @@ using namespace std;
 
 int CFileIO::GetChar()
 {
-  char ch;
-  mFs->get(ch);
-  return ch;
+    char ch;
+
+    mFs->get(ch);
+    return ch;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -53,9 +55,13 @@ int CFileIO::GetChar()
 
 bool CFileIO::IsEof()
 {
-	if (mFs == NULL) return true;
-  return mFs->eof();
+    if (mFs == NULL)
+    {
+        return true;
+    }
+    return mFs->eof();
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -69,11 +75,12 @@ bool CFileIO::IsEof()
 
 void CFileIO::Clear()
 {
-	if (mFs != NULL)
-	{
-		mFs->clear();
-	}
+    if (mFs != NULL)
+    {
+        mFs->clear();
+    }
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -87,8 +94,9 @@ void CFileIO::Clear()
 
 void CFileIO::SkipBytes(int nBytes)
 {
-	mFs->seekg(nBytes, ios_base::cur);
+    mFs->seekg(nBytes, ios_base::cur);
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -103,13 +111,15 @@ void CFileIO::SkipBytes(int nBytes)
 
 int CFileIO::GetFileSize(const char* Filename)
 {
-  long FileSize;
-  ifstream fin(Filename, ios::in | ios::binary);
-  fin.seekg(0, ios::end);
-  FileSize = fin.tellg();
-  fin.close();
-  return FileSize;
+    long FileSize;
+    ifstream fin(Filename, ios::in | ios::binary);
+
+    fin.seekg(0, ios::end);
+    FileSize = fin.tellg();
+    fin.close();
+    return FileSize;
 }
+
 
 //--------------------------------------------------------------------------
 //
@@ -124,26 +134,27 @@ int CFileIO::GetFileSize(const char* Filename)
 // ueberpruefen, ob Datei existiert
 //
 //---------------------------------------------------------------------------
+
 /*
+ * bool CFileIO::FileExists(const char* Filename)
+ * {
+ * ifstream fin(Filename, ios::in | ios::binary);
+ * bool s = fin.good();
+ *
+ * if (s)
+ * {
+ *  fin.close();
+ * }
+ * return s;
+ * }
+ */
 bool CFileIO::FileExists(const char* Filename)
 {
-  ifstream fin(Filename, ios::in | ios::binary);
-  bool s = fin.good();
+    struct stat buffer;
 
-  if (s)
-  {
-    fin.close();
-  }
-  return s;
-}
-*/
+    return stat(Filename, &buffer) == 0;
 
-bool CFileIO::FileExists(const char* Filename)
-{
-	struct stat buffer;
-  return (stat (Filename, &buffer) == 0);
-
-   //return access(Filename, F_OK) != -1;
+    //return access(Filename, F_OK) != -1;
 }
 
 
@@ -159,28 +170,28 @@ bool CFileIO::FileExists(const char* Filename)
 //---------------------------------------------------------------------------
 
 /*
-int CFileIO::FileAttribut(const char* Filename)
-{
-	int r = EFA_FILE;
-
-#ifdef __WIN32__
-
-	DWORD fa = GetFileAttributes(Filename);
-	if (fa == 0xFFFFFFFF)
-	{
-		r = EFA_NOT_FOUND;
-	}
-	else
-	if (fa & FILE_ATTRIBUTE_DIRECTORY)
-	{
-		r = EFA_FOLDER;
-	}
-#endif
-
-	return r;
-
-}
-*/
+ * int CFileIO::FileAttribut(const char* Filename)
+ * {
+ *  int r = EFA_FILE;
+ *
+ #ifdef __WIN32__
+ *
+ *  DWORD fa = GetFileAttributes(Filename);
+ *  if (fa == 0xFFFFFFFF)
+ *  {
+ *      r = EFA_NOT_FOUND;
+ *  }
+ *  else
+ *  if (fa & FILE_ATTRIBUTE_DIRECTORY)
+ *  {
+ *      r = EFA_FOLDER;
+ *  }
+ #endif
+ *
+ *  return r;
+ *
+ * }
+ */
 
 //--------------------------------------------------------------------------
 //
@@ -198,11 +209,15 @@ int CFileIO::FileAttribut(const char* Filename)
 
 bool CFileIO::OpenFileRead(const char* Filename, OPENMODE OpenMode)
 {
-  if (mFs != NULL) delete mFs;
-  mFs = new fstream(Filename, ios::in | OpenMode);
-  mOpenRead = mFs->good();
-  return mOpenRead;
+    if (mFs != NULL)
+    {
+        delete mFs;
+    }
+    mFs = new fstream(Filename, ios::in | OpenMode);
+    mOpenRead = mFs->good();
+    return mOpenRead;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -220,11 +235,15 @@ bool CFileIO::OpenFileRead(const char* Filename, OPENMODE OpenMode)
 
 bool CFileIO::OpenFileWrite(const char* Filename, OPENMODE OpenMode)
 {
-  if (mFs != NULL) delete mFs;
-  mFs = new fstream(Filename, ios::out | OpenMode);
-  mOpenWrite = mFs->good();
-  return mOpenWrite;
+    if (mFs != NULL)
+    {
+        delete mFs;
+    }
+    mFs = new fstream(Filename, ios::out | OpenMode);
+    mOpenWrite = mFs->good();
+    return mOpenWrite;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -242,11 +261,15 @@ bool CFileIO::OpenFileWrite(const char* Filename, OPENMODE OpenMode)
 
 bool CFileIO::OpenFileAppend(const char* Filename, OPENMODE OpenMode)
 {
-  if (mFs != NULL) delete mFs;
-  mFs = new fstream(Filename, ios::app | ios::out| OpenMode);
-  mOpenWrite = mFs->good();
-  return mOpenWrite;
+    if (mFs != NULL)
+    {
+        delete mFs;
+    }
+    mFs = new fstream(Filename, ios::app | ios::out| OpenMode);
+    mOpenWrite = mFs->good();
+    return mOpenWrite;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -265,15 +288,16 @@ bool CFileIO::OpenFileAppend(const char* Filename, OPENMODE OpenMode)
 
 bool CFileIO::OpenFileChange(const char* Filename, int Position)
 {
-	bool suc = OpenFileWrite(Filename, ios::out | ios::binary | ios::in);
+    bool suc = OpenFileWrite(Filename, ios::out | ios::binary | ios::in);
 
-	if (suc)
-	{
-		SetReadPos(Position);
-		SetWritePos(Position);
-	}
-	return suc;
+    if (suc)
+    {
+        SetReadPos(Position);
+        SetWritePos(Position);
+    }
+    return suc;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -298,23 +322,25 @@ bool CFileIO::OpenFileChange(const char* Filename, int Position)
 
 void* CFileIO::ReadFile(const char* Filename, int* nBytes)
 {
-  char* buffer = NULL;
-  *nBytes = CFileIO::GetFileSize(Filename);
-  if (nBytes != nullptr)
-  {
-    if (OpenFileRead(Filename, ios::binary))
+    char* buffer = NULL;
+
+    *nBytes = CFileIO::GetFileSize(Filename);
+    if (nBytes != nullptr)
     {
-      buffer = new char[*nBytes+1];
-      if (buffer != NULL)
-      {
-        ReadBytes(buffer, *nBytes);
-        buffer[*nBytes] = 0;
-      }
+        if (OpenFileRead(Filename, ios::binary))
+        {
+            buffer = new char[*nBytes+1];
+            if (buffer != NULL)
+            {
+                ReadBytes(buffer, *nBytes);
+                buffer[*nBytes] = 0;
+            }
+        }
+        CloseFile();
     }
-    CloseFile();
-  }
-  return buffer;
+    return buffer;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -334,19 +360,20 @@ void* CFileIO::ReadFile(const char* Filename, int* nBytes)
 
 bool CFileIO::WriteFile(const char* Filename, const void* buffer, int nBytes)
 {
-	bool suc = false;
+    bool suc = false;
 
-  if (nBytes > 0)
-  {
-    if (OpenFileWrite(Filename, ios::binary))
+    if (nBytes > 0)
     {
-			WriteBytes(buffer, nBytes);
-			suc = true;
-			CloseFile();
+        if (OpenFileWrite(Filename, ios::binary))
+        {
+            WriteBytes(buffer, nBytes);
+            suc = true;
+            CloseFile();
+        }
     }
-  }
-  return suc;
+    return suc;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -361,12 +388,13 @@ bool CFileIO::WriteFile(const char* Filename, const void* buffer, int nBytes)
 
 bool CFileIO::WriteBytes(const void* buffer, int nBytes)
 {
-  if (mOpenWrite)
-  {
-    mFs->write((const char*) buffer, nBytes);
-  }
-  return mOpenWrite;
+    if (mOpenWrite)
+    {
+        mFs->write((const char*)buffer, nBytes);
+    }
+    return mOpenWrite;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -378,8 +406,9 @@ bool CFileIO::WriteBytes(const void* buffer, int nBytes)
 
 bool CFileIO::WriteString(const char* str)
 {
- 	return WriteBytes(str, strlen(str));
+    return WriteBytes(str, strlen(str));
 }
+
 
 #if 0
 //---------------------------------------------------------------------------
@@ -392,9 +421,9 @@ bool CFileIO::WriteString(const char* str)
 
 class CStrpos : public CListElem<CStrpos>
 {
-	public:
+    public:
 
-		char* mPos;
+        char* mPos;
 };
 
 class CStrposList : public CList<CStrpos>
@@ -404,72 +433,74 @@ class CStrposList : public CList<CStrpos>
 
 static void CopyStringBytes(char* dst, char* src, int num)
 {
-	int i;
-	for (i = 0; (i < num) && (*src != 0); i++)
-	{
-		*(dst++) = *(src++);
-	}
-	*dst = 0;
+    int i;
+
+    for (i = 0; (i < num) && (*src != 0); i++)
+    {
+        *(dst++) = *(src++);
+    }
+    *dst = 0;
 }
+
 
 char* CFileIO::ReplaceAllStrings(char* SrcString, char* SearchString, char* SubString, int* Count)
 {
-	CStrposList slist;
-	int   cnt = 0;
-	char* pos;
-	char* StartPos  = SrcString;
-	int   LenSearch = strlen(SearchString);
-	int   LenSub    = strlen(SubString);
-	int   LenNew;
-	char* NewString = NULL;
+    CStrposList slist;
+    int cnt = 0;
+    char* pos;
+    char* StartPos = SrcString;
+    int LenSearch = strlen(SearchString);
+    int LenSub = strlen(SubString);
+    int LenNew;
+    char* NewString = NULL;
 
-	do
-	{
-		pos = strstr(StartPos, SearchString);
-		if (pos != NULL)
-		{
-			CStrpos* se = slist.NewListElem();
-			se->mPos = pos;
-			StartPos = pos + LenSearch;
-			cnt++;
-		}
-	}
-	while (pos != NULL);
+    do
+    {
+        pos = strstr(StartPos, SearchString);
+        if (pos != NULL)
+        {
+            CStrpos* se = slist.NewListElem();
+            se->mPos = pos;
+            StartPos = pos + LenSearch;
+            cnt++;
+        }
+    }while (pos != NULL);
 
-	*Count = cnt;
+    *Count = cnt;
 
-	if (cnt > 0)
-	{
-		LenNew = strlen(SrcString) + (cnt * (LenSub - LenSearch));
+    if (cnt > 0)
+    {
+        LenNew = strlen(SrcString) + (cnt * (LenSub - LenSearch));
 
-		NewString = new char[LenNew+1];
-		char* NewStringPos = NewString;
+        NewString = new char[LenNew+1];
+        char* NewStringPos = NewString;
 
-		StartPos = SrcString;
-		for (CStrpos* se = slist.GetFirst();
-									se != NULL;
-									se = slist.GetNext())
-		{
+        StartPos = SrcString;
+        for (CStrpos* se = slist.GetFirst();
+            se != NULL;
+            se = slist.GetNext())
+        {
+            int len = se->mPos - StartPos;
+            CopyStringBytes(NewStringPos, StartPos, len);
+            NewStringPos += len;
+            CopyStringBytes(NewStringPos, SubString, LenSub);
+            NewStringPos += LenSub;
 
-			int len = se->mPos - StartPos;
-			CopyStringBytes(NewStringPos, StartPos, len);
-			NewStringPos += len;
-			CopyStringBytes(NewStringPos, SubString, LenSub);
-			NewStringPos += LenSub;
+            StartPos = se->mPos + LenSearch;
+        }
+        CopyStringBytes(NewStringPos, StartPos, strlen(StartPos));
+        slist.ClearList();
+    }
+    else
+    {
+        NewString = new char[strlen(SrcString) + 1];
+        strcpy(NewString, SrcString);
+    }
 
-			StartPos = se->mPos + LenSearch;
-		}
-		CopyStringBytes(NewStringPos, StartPos, strlen(StartPos));
-		slist.ClearList();
-	}
-	else
-	{
-		NewString = new char[strlen(SrcString) + 1];
-		strcpy(NewString, SrcString);
-	}
-
-	return NewString;
+    return NewString;
 }
+
+
 #endif
 
 //---------------------------------------------------------------------------
@@ -493,12 +524,13 @@ char* CFileIO::ReplaceAllStrings(char* SrcString, char* SearchString, char* SubS
 
 bool CFileIO::ReadBytes(void* buffer, int nBytes)
 {
-  if (mOpenRead)
-  {
-    mFs->read((char*) buffer, nBytes);
-  }
-  return mOpenRead;
+    if (mOpenRead)
+    {
+        mFs->read((char*)buffer, nBytes);
+    }
+    return mOpenRead;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -512,35 +544,35 @@ bool CFileIO::ReadBytes(void* buffer, int nBytes)
 
 int CFileIO::ReadLine(vector<char>* Line)
 {
-	char ch;
-	bool EndLine = false;
+    char ch;
+    bool EndLine = false;
 
-	Line->clear();
-	do
-	{
-		mFs->get(ch);
-		if (!mFs->eof())
-		{
-			if (ch != 0x0D)
-			{
-				if (ch != 0x0A)
-				{
-        	Line->push_back(ch);
-				}
-				else
-				{
-					EndLine = true;
-				}
-			}
-		}
-		else
-		{
-			EndLine = true;
-		}
-	}
-	while (!EndLine);
-	return true;
+    Line->clear();
+    do
+    {
+        mFs->get(ch);
+        if (!mFs->eof())
+        {
+            if (ch != 0x0D)
+            {
+                if (ch != 0x0A)
+                {
+                    Line->push_back(ch);
+                }
+                else
+                {
+                    EndLine = true;
+                }
+            }
+        }
+        else
+        {
+            EndLine = true;
+        }
+    }while (!EndLine);
+    return true;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -554,37 +586,37 @@ int CFileIO::ReadLine(vector<char>* Line)
 
 int CFileIO::ReadLine(string* Line)
 {
-	char ch;
-	bool EndLine = false;
-	bool IsEof = false;
+    char ch;
+    bool EndLine = false;
+    bool IsEof = false;
 
-	Line->clear();
-	do
-	{
-		mFs->get(ch);
-		if (!mFs->eof())
-		{
-			if (ch != 0x0D)
-			{
-				if (ch != 0x0A)
-				{
-        	Line->push_back(ch);
-				}
-				else
-				{
-					EndLine = true;
-				}
-			}
-		}
-		else
-		{
-			EndLine = true;
-			IsEof   = true;
-		}
-	}
-	while (!EndLine);
-	return !IsEof;
+    Line->clear();
+    do
+    {
+        mFs->get(ch);
+        if (!mFs->eof())
+        {
+            if (ch != 0x0D)
+            {
+                if (ch != 0x0A)
+                {
+                    Line->push_back(ch);
+                }
+                else
+                {
+                    EndLine = true;
+                }
+            }
+        }
+        else
+        {
+            EndLine = true;
+            IsEof = true;
+        }
+    }while (!EndLine);
+    return !IsEof;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -602,12 +634,13 @@ int CFileIO::ReadLine(string* Line)
 
 int CFileIO::ReadSplitLine(stringvector* StringVector, char Div)
 {
-	string LineBuffer;
-	int Eof = ReadLine(&LineBuffer);
-	StringVector->clear();
-	NStringTool::Split(LineBuffer, StringVector, Div);
+    string LineBuffer;
+    int Eof = ReadLine(&LineBuffer);
 
-	return Eof;
+    StringVector->clear();
+    NStringTool::Split(LineBuffer, StringVector, Div);
+
+    return Eof;
 }
 
 
@@ -627,13 +660,14 @@ int CFileIO::ReadSplitLine(stringvector* StringVector, char Div)
 
 void* CFileIO::ReadBytes(int nBytes)
 {
-	char* buffer = NULL;
-  if (mOpenRead)
-  {
-		buffer = new char[nBytes];
-    mFs->read(buffer, nBytes);
-  }
-  return buffer;
+    char* buffer = NULL;
+
+    if (mOpenRead)
+    {
+        buffer = new char[nBytes];
+        mFs->read(buffer, nBytes);
+    }
+    return buffer;
 }
 
 
@@ -653,15 +687,16 @@ void* CFileIO::ReadBytes(int nBytes)
 
 void CFileIO::CloseFile()
 {
-  if (mOpenWrite || mOpenRead)
-  {
-    mFs->close();
-    mOpenRead = false;
-    mOpenWrite = false;
-    delete mFs;
- 	  mFs = NULL;
-  }
+    if (mOpenWrite || mOpenRead)
+    {
+        mFs->close();
+        mOpenRead = false;
+        mOpenWrite = false;
+        delete mFs;
+        mFs = NULL;
+    }
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -675,9 +710,10 @@ void CFileIO::CloseFile()
 
 bool CFileIO::SetReadPos(int pos)
 {
-	mFs->seekg(pos, ios::beg);
-	return (int) mFs->tellg() == pos;
+    mFs->seekg(pos, ios::beg);
+    return (int)mFs->tellg() == pos;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -691,8 +727,8 @@ bool CFileIO::SetReadPos(int pos)
 
 bool CFileIO::SetReadPos2(int pos, SEEKDIR where)
 {
-	mFs->seekg(pos, where);
-	return (int) mFs->tellg() == pos;
+    mFs->seekg(pos, where);
+    return (int)mFs->tellg() == pos;
 }
 
 
@@ -708,8 +744,9 @@ bool CFileIO::SetReadPos2(int pos, SEEKDIR where)
 
 void CFileIO::SetWritePosEnd()
 {
-	mFs->seekp(0, ios_base::end);
+    mFs->seekp(0, ios_base::end);
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -723,9 +760,10 @@ void CFileIO::SetWritePosEnd()
 
 void CFileIO::SetWritePos(unsigned int pos)
 {
-	mFs->seekp(pos, ios_base::beg);
-	//mFs->seekg(pos, ios_base::beg);
+    mFs->seekp(pos, ios_base::beg);
+    //mFs->seekg(pos, ios_base::beg);
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -739,8 +777,9 @@ void CFileIO::SetWritePos(unsigned int pos)
 
 int CFileIO::GetReadPos()
 {
-	return mFs->tellg();
+    return mFs->tellg();
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -754,7 +793,7 @@ int CFileIO::GetReadPos()
 
 int CFileIO::GetWritePos()
 {
-	return mFs->tellp();
+    return mFs->tellp();
 }
 
 
@@ -766,53 +805,53 @@ int CFileIO::GetWritePos()
 // Return:
 //
 //  EFILETYPE_UNKNOWN,
-// 	EFILETYPE_JPG,
-// 	EFILETYPE_TIF,
-// 	EFILETYPE_PNG,
-// 	EFILETYPE_TGA,
-// 	EFILETYPE_RAW
+//  EFILETYPE_JPG,
+//  EFILETYPE_TIF,
+//  EFILETYPE_PNG,
+//  EFILETYPE_TGA,
+//  EFILETYPE_RAW
 //
 //---------------------------------------------------------------------------
 
 EFileTypes CFileIO::GuessFileFormat(const char* Filename)
 {
-	const char* AppList[] =
-	{
-		".IDAT",
-		".IDX",
-		".DAT",
-		".JPG",
-		".TIF",
-		".PNG",
-		".TGA",
-		".RAW",
-		".GIF",
-		NULL
-	};
+    const char* AppList[] =
+    {
+        ".IDAT",
+        ".IDX",
+        ".DAT",
+        ".JPG",
+        ".TIF",
+        ".PNG",
+        ".TGA",
+        ".RAW",
+        ".GIF",
+        NULL
+    };
 
-	int  FileType;
-	char FilenameCopy[256];
-	strcpy(FilenameCopy, Filename);
+    int FileType;
+    char FilenameCopy[256];
 
-	if (strlen(FilenameCopy) > 4)
-	{
-		for (int i = 0; FilenameCopy[i] != 0; i++)
-		{
-			FilenameCopy[i] = toupper(FilenameCopy[i]);
-		}
+    strcpy(FilenameCopy, Filename);
 
-		for (int i = 0; AppList[i] != NULL; i++)
-		{
-			char* FilenameCopyPtr = FilenameCopy + strlen(FilenameCopy) - strlen(AppList[i]);
-			if (strcmp(FilenameCopyPtr, AppList[i]) == 0)
-			{
-				return (EFileTypes) (i+1);
-			}
-		}
-	}
-	return EFILETYPE_UNKNOWN;
+    if (strlen(FilenameCopy) > 4)
+    {
+        for (int i = 0; FilenameCopy[i] != 0; i++)
+        {
+            FilenameCopy[i] = toupper(FilenameCopy[i]);
+        }
+
+        for (int i = 0; AppList[i] != NULL; i++)
+        {
+            char* FilenameCopyPtr = FilenameCopy + strlen(FilenameCopy) - strlen(AppList[i]);
+            if (strcmp(FilenameCopyPtr, AppList[i]) == 0)
+            {
+                return (EFileTypes)(i+1);
+            }
+        }
+    }
+    return EFILETYPE_UNKNOWN;
 }
-
 
 
 //---------------------------------------------------------------------------
@@ -824,22 +863,26 @@ EFileTypes CFileIO::GuessFileFormat(const char* Filename)
 
 char* CFileIO::ReplaceApp(const char* Filename, const char* neuApp)
 {
-  char  NameBuffer[512];
-  char* NeuFilename;
+    char NameBuffer[512];
+    char* NeuFilename;
 
-  strcpy(NameBuffer, Filename);
-  char* Punkt = strrchr(NameBuffer, '.');
+    strcpy(NameBuffer, Filename);
+    char* Punkt = strrchr(NameBuffer, '.');
 
-  if (Punkt != NULL) *Punkt = 0;
+    if (Punkt != NULL)
+    {
+        *Punkt = 0;
+    }
 
-  strcat(NameBuffer, neuApp);
+    strcat(NameBuffer, neuApp);
 
-  NeuFilename = new char[strlen(NameBuffer) + 1];
+    NeuFilename = new char[strlen(NameBuffer) + 1];
 
-  strcpy(NeuFilename, NameBuffer);
+    strcpy(NeuFilename, NameBuffer);
 
-  return NeuFilename;
+    return NeuFilename;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -850,33 +893,34 @@ char* CFileIO::ReplaceApp(const char* Filename, const char* neuApp)
 
 bool CFileIO::Strcmpx(const char* s1, const char* s2)
 {
-	if ((s1 == NULL) || (s2 == NULL))
-	{
-		return false;
-	}
+    if ((s1 == NULL) || (s2 == NULL))
+    {
+        return false;
+    }
 
-	char* bstr1 = new char[strlen(s1) + 1];
-	char* bstr2 = new char[strlen(s2) + 1];
+    char* bstr1 = new char[strlen(s1) + 1];
+    char* bstr2 = new char[strlen(s2) + 1];
 
-	strcpy(bstr1, s1);
-	strcpy(bstr2, s2);
+    strcpy(bstr1, s1);
+    strcpy(bstr2, s2);
 
-	for (char* c1 = bstr1; *c1 != 0; c1++)
-	{
-		*c1 = toupper(*c1);
-	}
-	for (char* c1 = bstr2; *c1 != 0; c1++)
-	{
-		*c1 = toupper(*c1);
-	}
+    for (char* c1 = bstr1; *c1 != 0; c1++)
+    {
+        *c1 = toupper(*c1);
+    }
+    for (char* c1 = bstr2; *c1 != 0; c1++)
+    {
+        *c1 = toupper(*c1);
+    }
 
-	int s = strcmp(bstr1, bstr2);
+    int s = strcmp(bstr1, bstr2);
 
-	delete[] bstr2;
-	delete[] bstr1;
+    delete[] bstr2;
+    delete[] bstr1;
 
-	return s == 0;
+    return s == 0;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -887,44 +931,46 @@ bool CFileIO::Strcmpx(const char* s1, const char* s2)
 
 bool CFileIO::ResolveWildCard(const char* Dir, const char* WildCard, stringvector* FileList)
 {
-	struct stat FileInfo;
-  struct dirent *CurrentFile;
-  DIR*   Directory;
-  char** DirList = NULL;
-  bool   r = false;
+    struct stat FileInfo;
+    struct dirent* CurrentFile;
+    DIR* Directory;
+    char** DirList = NULL;
+    bool r = false;
 
-	Directory = opendir(Dir);
+    Directory = opendir(Dir);
 
-	cout << "CFileIO::ResolveWildCard Dir=" << Dir << " Wildcard=" << WildCard << endl;
+    cout << "CFileIO::ResolveWildCard Dir=" << Dir << " Wildcard=" << WildCard << endl;
 
-	if (WildCard[0] == '*')
-	{
-		WildCard++;
-	}
-	FileList->clear();
+    if (WildCard[0] == '*')
+    {
+        WildCard++;
+    }
+    FileList->clear();
 
-	if (Directory != NULL)
-	{
-		r = true;
-		Directory = opendir(Dir);
+    if (Directory != NULL)
+    {
+        r = true;
+        Directory = opendir(Dir);
 
-		int i = 0;
-		while ((CurrentFile = readdir(Directory)) != NULL)
-		{
-			char* EndString = CurrentFile->d_name + (strlen(CurrentFile->d_name) - strlen(WildCard));
+        int i = 0;
+        while ((CurrentFile = readdir(Directory)) != NULL)
+        {
+            char* EndString = CurrentFile->d_name + (strlen(CurrentFile->d_name) - strlen(WildCard));
 
-			if (Strcmpx(EndString, WildCard))
-			{
-				string Filename = CurrentFile->d_name;
-				FileList->push_back(Filename);
-			}
+            if (Strcmpx(EndString, WildCard))
+            {
+                string Filename = CurrentFile->d_name;
+                FileList->push_back(Filename);
+            }
 
-		//cout << "File:" << CurrentFile->d_name << endl;
-		}
-		closedir(Directory);
-	}
-	return r;
+            //cout << "File:" << CurrentFile->d_name << endl;
+        }
+
+        closedir(Directory);
+    }
+    return r;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -937,21 +983,22 @@ bool CFileIO::ResolveWildCard(const char* Dir, const char* WildCard, stringvecto
 
 string CFileIO::StripExtension(const char* FullPathName)
 {
-	string OutString;
-	char* TmpName = NewString(FullPathName);
-  char* slash = strrchr(TmpName, '.');
+    string OutString;
+    char* TmpName = NewString(FullPathName);
+    char* slash = strrchr(TmpName, '.');
 
-  if (slash != NULL)
-  {
-		*slash = 0;
-		OutString = TmpName;
-	}
-  else
-  {
-		OutString = FullPathName;
-	}
-	return OutString;
+    if (slash != NULL)
+    {
+        *slash = 0;
+        OutString = TmpName;
+    }
+    else
+    {
+        OutString = FullPathName;
+    }
+    return OutString;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -969,9 +1016,11 @@ string CFileIO::StripExtension(const char* FullPathName)
 
 char* CFileIO::Fill0(int i, int n)
 {
-	static char strbuffer[16];
-	return Fill0(strbuffer, i, n);
+    static char strbuffer[16];
+
+    return Fill0(strbuffer, i, n);
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -989,9 +1038,11 @@ char* CFileIO::Fill0(int i, int n)
 
 string CFileIO::Fill0str(int i, int n)
 {
-	string fstr = Fill0(i, n);
-	return fstr;
+    string fstr = Fill0(i, n);
+
+    return fstr;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -1009,14 +1060,16 @@ string CFileIO::Fill0str(int i, int n)
 
 char* CFileIO::Fill0(char* strbuffer, int z, int n)
 {
-	int prefix0count = n - strlen(strbuffer);
+    int prefix0count = n - strlen(strbuffer);
+
     for (int i = 0; i < prefix0count; i++)
     {
-		strbuffer[i] = '0';
+        strbuffer[i] = '0';
     }
     sprintf(strbuffer + prefix0count, "%d", z);
-	return strbuffer;
+    return strbuffer;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -1028,29 +1081,30 @@ char* CFileIO::Fill0(char* strbuffer, int z, int n)
 // Return:
 //
 //---------------------------------------------------------------------------
+
 /*
-bool CFileIO::CreateDir(const char* NewFolder)
-{
-	#if defined __WIN32__
-
-	SECURITY_ATTRIBUTES sa;
-	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-	sa.lpSecurityDescriptor = NULL;
-	sa.bInheritHandle = TRUE;
-	return CreateDirectory(NewFolder, &sa);
-
-  #elif defined __unix__
-
-	mkdir(NewFolder, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-
-	return 1;
-
-	#else
-	FEHLER CFileIO::CreateDir
-	#endif
-	return 0;
-}
-*/
+ * bool CFileIO::CreateDir(const char* NewFolder)
+ * {
+ #if defined __WIN32__
+ *
+ *  SECURITY_ATTRIBUTES sa;
+ *  sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+ *  sa.lpSecurityDescriptor = NULL;
+ *  sa.bInheritHandle = TRUE;
+ *  return CreateDirectory(NewFolder, &sa);
+ *
+ #elif defined __unix__
+ *
+ *  mkdir(NewFolder, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+ *
+ *  return 1;
+ *
+ #else
+ *  FEHLER CFileIO::CreateDir
+ #endif
+ *  return 0;
+ * }
+ */
 //---------------------------------------------------------------------------
 //
 // Klasse:    CFileIO
@@ -1064,14 +1118,14 @@ bool CFileIO::CreateDir(const char* NewFolder)
 
 char* CFileIO::NewString(const char* OldStr)
 {
-  char* NewStr = NULL;
+    char* NewStr = NULL;
 
-  if (OldStr != NULL)
-  {
-		NewStr = new char[strlen(OldStr) + 1];
-		strcpy(NewStr, OldStr);
-	}
-  return NewStr;
+    if (OldStr != NULL)
+    {
+        NewStr = new char[strlen(OldStr) + 1];
+        strcpy(NewStr, OldStr);
+    }
+    return NewStr;
 }
 
 
@@ -1084,18 +1138,18 @@ char* CFileIO::NewString(const char* OldStr)
 
 char* CFileIO::ExtractFilename(const char* FullPathName)
 {
-  const char* slash = strrchr(FullPathName, '/');
+    const char* slash = strrchr(FullPathName, '/');
 
-  if (slash == NULL)
-  {
-		slash = strrchr(FullPathName, '\\');
+    if (slash == NULL)
+    {
+        slash = strrchr(FullPathName, '\\');
 
-		if (slash == NULL)
-		{
-			return NewString(FullPathName);
-		}
-	}
-  return NewString(slash + 1);
+        if (slash == NULL)
+        {
+            return NewString(FullPathName);
+        }
+    }
+    return NewString(slash + 1);
 }
 
 
@@ -1109,16 +1163,17 @@ char* CFileIO::ExtractFilename(const char* FullPathName)
 
 int CFileIO::WriteFromFile(const char* Filename)
 {
-	int FileSize = 0;
-	const char* FileData = (const char*) ReadFile(Filename, &FileSize);
+    int FileSize = 0;
+    const char* FileData = (const char*)ReadFile(Filename, &FileSize);
 
-	if (FileData != NULL)
-	{
-		WriteBytes(FileData, FileSize);
-		delete[] FileData;
-	}
-	return FileSize;
+    if (FileData != NULL)
+    {
+        WriteBytes(FileData, FileSize);
+        delete[] FileData;
+    }
+    return FileSize;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -1129,25 +1184,25 @@ int CFileIO::WriteFromFile(const char* Filename)
 
 const char* CFileIO::ExtractPath(const char* FullPathName)
 {
-	char* PathName = new char[strlen(FullPathName) + 1];
+    char* PathName = new char[strlen(FullPathName) + 1];
 
-  strcpy(PathName, FullPathName);
+    strcpy(PathName, FullPathName);
 
-  char* slash = strrchr(PathName, '\\');
+    char* slash = strrchr(PathName, '\\');
 
- // cout << "Slash=" << slash << endl;
+    // cout << "Slash=" << slash << endl;
 
-  if (slash != NULL)
-  {
-		slash[1] = 0;
-	}
-	else
-	{
-		slash = strrchr(PathName, '/');
-		if (slash != NULL)
-		{
-			slash[1] = 0;
-		}
-	}
-  return PathName;
+    if (slash != NULL)
+    {
+        slash[1] = 0;
+    }
+    else
+    {
+        slash = strrchr(PathName, '/');
+        if (slash != NULL)
+        {
+            slash[1] = 0;
+        }
+    }
+    return PathName;
 }

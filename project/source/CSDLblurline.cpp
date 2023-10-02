@@ -16,7 +16,7 @@ using namespace std;
 
 extern const char* GlobalWindowName;
 
- 
+
 // ---------------------------------------------------------------------------
 //
 // KLASSE        : CSDLblurline
@@ -28,9 +28,8 @@ extern const char* GlobalWindowName;
 
 CSDLblurline::CSDLblurline()
 {
-  mContext = NULL;
+    mContext = NULL;
 }
-
 
 
 // ---------------------------------------------------------------------------
@@ -44,13 +43,14 @@ CSDLblurline::CSDLblurline()
 
 void CSDLblurline::ParseArgVec(const std::vector<std::string>& ArgStr)
 {
-	//GlobalDebugT("ArgStr.size()=", ArgStr.size(), DBG_MAPS);
+    //GlobalDebugT("ArgStr.size()=", ArgStr.size(), DBG_MAPS);
 
-	if (ArgStr.size() > 0)
-	{
-		//mFilename = ArgStr[0];
-	}
+    if (ArgStr.size() > 0)
+    {
+        //mFilename = ArgStr[0];
+    }
 }
+
 
 // ---------------------------------------------------------------------------
 //
@@ -63,18 +63,19 @@ void CSDLblurline::ParseArgVec(const std::vector<std::string>& ArgStr)
 
 void CSDLblurline::ParseMouseRel(int xrel, int yrel)
 {
-	//cout << "xrel=" << xrel << " yrel=" << yrel << endl;
-   
-	mContext->MouseMove(xrel, yrel, mLeftMouseButton, mRightMouseButton);
+    //cout << "xrel=" << xrel << " yrel=" << yrel << endl;
+
+    mContext->MouseMove(xrel, yrel, mLeftMouseButton, mRightMouseButton);
+
 /*
-	if (mLeftMouseButton)
-	{
-	}
-	else
-	if (mRightMouseButton)
-	{
-	}
-*/	
+ *  if (mLeftMouseButton)
+ *  {
+ *  }
+ *  else
+ *  if (mRightMouseButton)
+ *  {
+ *  }
+ */
 }
 
 
@@ -89,13 +90,12 @@ void CSDLblurline::ParseMouseRel(int xrel, int yrel)
 
 void CSDLblurline::SetUpDrawing(float StereoOffset)
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-	//
-	// 2D Operationen
-	//
-
+    //
+    // 2D Operationen
+    //
 }
 
 
@@ -110,9 +110,8 @@ void CSDLblurline::SetUpDrawing(float StereoOffset)
 
 void CSDLblurline::MouseWheel(bool up)
 {
-
-
 }
+
 
 // ---------------------------------------------------------------------------
 //
@@ -125,32 +124,31 @@ void CSDLblurline::MouseWheel(bool up)
 
 void CSDLblurline::GameLoop()
 {
+    if (mInitFlag)
+    {
+        glClearColor(0.0, 0.0, 0.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_DEPTH_TEST);
 
 
-	if (mInitFlag)
-	{
-		glClearColor(0.0, 0.0, 0.0, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glDisable(GL_DEPTH_TEST);
+        //
+        // 2D
+        //
 
 
-		//
-		// 2D
-		//
+        //StartProjectionView();
+
+        //cout << "GameLoop" << endl;
 
 
-		//StartProjectionView();
-		
-		//cout << "GameLoop" << endl;
-		
-		
-		
-		mContext->Draw2D();
-   
 
-		SDL_GL_SwapWindow(mSdlWindow);
-	}
+        mContext->Draw2D();
+
+
+        SDL_GL_SwapWindow(mSdlWindow);
+    }
 }
+
 
 // ---------------------------------------------------------------------------
 //
@@ -162,12 +160,12 @@ void CSDLblurline::GameLoop()
 // ---------------------------------------------------------------------------
 
 void CSDLblurline::InitGame()
-{	
-  glewInit();
-  mContext = CGL_Context::CreateContext();
-  mContext->Init(mXres, mYres);
+{
+    glewInit();
+    mContext = CGL_Context::CreateContext();
+    mContext->Init(mXres, mYres);
 
-	//SDL_WM_SetCaption(GlobalWindowName, GlobalWindowName);
+    //SDL_WM_SetCaption(GlobalWindowName, GlobalWindowName);
 }
 
 
@@ -181,6 +179,7 @@ void CSDLblurline::InitGame()
 bool CSDLblurline::ParseKeys(int key, bool down)
 {
     bool r = true;
+
     if (down)
     {
         switch (key)
@@ -193,10 +192,8 @@ bool CSDLblurline::ParseKeys(int key, bool down)
                     mContext->Finish();
                 }
                 break;
-                
-                
         }
-        
+
         if ((key >= SDLK_a) && (key <= SDLK_z))
         {
             mContext->KeyPress(key - SDLK_a + 'a', down);
@@ -205,6 +202,7 @@ bool CSDLblurline::ParseKeys(int key, bool down)
 
     return r;
 }
+
 
 // ---------------------------------------------------------------------------
 //
@@ -217,9 +215,8 @@ bool CSDLblurline::ParseKeys(int key, bool down)
 
 void CSDLblurline::SetResolution(int w, int h)
 {
-  if (!mInitFlag)
-  {
-    mInitFlag = true;
-  }
+    if (!mInitFlag)
+    {
+        mInitFlag = true;
+    }
 }
-

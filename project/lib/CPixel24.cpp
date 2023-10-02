@@ -28,10 +28,11 @@ using namespace std;
 
 bool CPixel24::operator==(const CPixel24& p2) const
 {
-	return ((rgb[0] == p2.rgb[0]) &&
-					(rgb[1] == p2.rgb[1]) &&
-					(rgb[2] == p2.rgb[2]));
+    return (rgb[0] == p2.rgb[0]) &&
+           (rgb[1] == p2.rgb[1]) &&
+           (rgb[2] == p2.rgb[2]);
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -44,10 +45,11 @@ bool CPixel24::operator==(const CPixel24& p2) const
 
 bool CPixel24::operator!=(const CPixel24& p2) const
 {
-	return ((rgb[0] != p2.rgb[0]) ||
-					(rgb[1] != p2.rgb[1]) ||
-					(rgb[2] != p2.rgb[2]));
+    return (rgb[0] != p2.rgb[0]) ||
+           (rgb[1] != p2.rgb[1]) ||
+           (rgb[2] != p2.rgb[2]);
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -60,11 +62,12 @@ bool CPixel24::operator!=(const CPixel24& p2) const
 
 void CPixel24::SwapRedBlue()
 {
-	uint8_t swap = rgb[0];
+    uint8_t swap = rgb[0];
 
-	rgb[0] = rgb[2];
-	rgb[2] = swap;
+    rgb[0] = rgb[2];
+    rgb[2] = swap;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -77,10 +80,11 @@ void CPixel24::SwapRedBlue()
 
 void CPixel24::Set(uint8_t r, uint8_t g, uint8_t b)
 {
-	rgb[0] = r;
-	rgb[1] = g;
-	rgb[2] = b;
+    rgb[0] = r;
+    rgb[1] = g;
+    rgb[2] = b;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -93,12 +97,13 @@ void CPixel24::Set(uint8_t r, uint8_t g, uint8_t b)
 
 void CPixel24::Set(unsigned int b)
 {
-	unsigned char* c = (unsigned char*) &b;
+    unsigned char* c = (unsigned char*)&b;
 
-	rgb[0] = c[0];
-	rgb[1] = c[1];
-	rgb[2] = c[2];
+    rgb[0] = c[0];
+    rgb[1] = c[1];
+    rgb[2] = c[2];
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -111,7 +116,5 @@ void CPixel24::Set(unsigned int b)
 
 int CPixel24::Brightness()
 {
-	return rgb[0] + rgb[1] + rgb[2];
+    return rgb[0] + rgb[1] + rgb[2];
 }
-
-

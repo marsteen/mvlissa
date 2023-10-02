@@ -1,4 +1,3 @@
-
 #include <CGL_Basic.h>
 #include <GLline/CLineData.h>
 #include <GLline/StaticLineHelp.hpp>
@@ -27,107 +26,99 @@ static void InitLine(
     float* LineAngle,
     SVertArray2D* ar)
 {
-	CVector2<float> v1(x1, y1);
-	CVector2<float> v2(x2, y2);
-	float dx = x1 - x2;
-	float dy = y1 - y2;
-	   
-	*LineAngle = atan2(dy, dx) - DEG_TO_RAD(90.0f);
-	
-	//*LineAngle = 0.0f;
-	//cout << "LineAngle=" << RAD_TO_DEG(*LineAngle) << endl;
-	
-	//cout << "w=" << w << endl;
+    CVector2<float> v1(x1, y1);
+    CVector2<float> v2(x2, y2);
+    float dx = x1 - x2;
+    float dy = y1 - y2;
 
-	float len = v1.Abstand(&v2);
-	
-	//cout << "len=" << len << endl;
-	
-	//shader->SetAngle(mLineAngle);
-	//shader->SetPos(x1, y1);
-	
-	
-	const float textcoordsLeft[] =
-  {
-		1.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 1.0f				
-  };
-	const float textcoordsRight[] =
-  {
-		0.0f, 0.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 0.0f, 0.0f		
-  };	
-	
-	
-	float cx1 = 0.0f;
-	float cx2 = 0.0f + LineWidth;
-	float cy1 = 0.0f;
-	float cy2 = 0.0f + len;
-	
-	
-	//shader->SetColor(color);
+    *LineAngle = atan2(dy, dx) - DEG_TO_RAD(90.0f);
 
-	
-	
-  glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	//CGL_Basic::DrawQuad(mBlurlineShader, -0.5f, -0.5f, 0.5f, 0.5f, Colors);
-  //CGL_Basic::DrawLine(this, -0.5f, -0.5f, 0.5f, 0.5f);
-	
-	
-		
-	
-	
-	{
-	
-		CGL_Basic::CreateQuadTexCoords(0.0f, 0.0f, LineWidth, len,  textcoordsLeft,  ar[0]);
-		CGL_Basic::CreateQuadTexCoords(-LineWidth, 0.0f, 0.0f, len, textcoordsRight, ar[1]);
-		
-		/*
-		glEnableVertexAttribArray(shader->VertAttrib());	
-		glEnableVertexAttribArray(shader->TextAttrib());
-		
-		CGL_Basic::DrawQuadTexCoords(shader, ar[0]);
-		CGL_Basic::DrawQuadTexCoords(shader, ar[1]);
-		
-		
-		glDisableVertexAttribArray(shader->VertAttrib());
-		glDisableVertexAttribArray(shader->TextAttrib());
-		*/
+    //*LineAngle = 0.0f;
+    //cout << "LineAngle=" << RAD_TO_DEG(*LineAngle) << endl;
 
-	}
-	
-	
-	//CGL_Basic::DrawQuadTexCoords(shader, 0.0f, 0.0f, LINE_W, len,  textcoordsLeft);
-	
-	//CGL_Basic::DrawQuadTexCoords(shader, -LINE_W, 0.0f, 0.0f, len, textcoordsRight);
-	
+    //cout << "w=" << w << endl;
+
+    float len = v1.Abstand(&v2);
+
+    //cout << "len=" << len << endl;
+
+    //shader->SetAngle(mLineAngle);
+    //shader->SetPos(x1, y1);
+
+
+    const float textcoordsLeft[] =
+    {
+        1.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 1.0f
+    };
+    const float textcoordsRight[] =
+    {
+        0.0f, 0.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 0.0f, 0.0f
+    };
+
+
+    float cx1 = 0.0f;
+    float cx2 = 0.0f + LineWidth;
+    float cy1 = 0.0f;
+    float cy2 = 0.0f + len;
+
+
+    //shader->SetColor(color);
+
+
+
+    glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    //CGL_Basic::DrawQuad(mBlurlineShader, -0.5f, -0.5f, 0.5f, 0.5f, Colors);
+    //CGL_Basic::DrawLine(this, -0.5f, -0.5f, 0.5f, 0.5f);
+
+
+
+    {
+        CGL_Basic::CreateQuadTexCoords(0.0f, 0.0f, LineWidth, len, textcoordsLeft, ar[0]);
+        CGL_Basic::CreateQuadTexCoords(-LineWidth, 0.0f, 0.0f, len, textcoordsRight, ar[1]);
+
+        /*
+         * glEnableVertexAttribArray(shader->VertAttrib());
+         * glEnableVertexAttribArray(shader->TextAttrib());
+         *
+         * CGL_Basic::DrawQuadTexCoords(shader, ar[0]);
+         * CGL_Basic::DrawQuadTexCoords(shader, ar[1]);
+         *
+         *
+         * glDisableVertexAttribArray(shader->VertAttrib());
+         * glDisableVertexAttribArray(shader->TextAttrib());
+         */
+    }
+
+
+    //CGL_Basic::DrawQuadTexCoords(shader, 0.0f, 0.0f, LINE_W, len,  textcoordsLeft);
+
+    //CGL_Basic::DrawQuadTexCoords(shader, -LINE_W, 0.0f, 0.0f, len, textcoordsRight);
+
 #if 1
-	{ 
-		// 1. Kappe
-		CVector2<float> org(0.0f, 0.0f);
-		std::vector<CVector2<float> > vec;
-		vec.push_back(org);
-		GetCirclePoints<float>(180.0f, 360.0f, LineWidth, 16, 0.0f, 0.0f, vec);
-		CGL_Basic::CreateTrifan(vec, ar[2]);
-		//CGL_Basic::DrawTrifan(shader, ar);	
-		
-	}
+    {
+        // 1. Kappe
+        CVector2<float> org(0.0f, 0.0f);
+        std::vector<CVector2<float> > vec;
+        vec.push_back(org);
+        GetCirclePoints<float>(180.0f, 360.0f, LineWidth, 16, 0.0f, 0.0f, vec);
+        CGL_Basic::CreateTrifan(vec, ar[2]);
+        //CGL_Basic::DrawTrifan(shader, ar);
+    }
 
-	{ 
-		// 2. Kappe
-		CVector2<float> org(0.0f, len);
-		std::vector<CVector2<float> > vec;
-		vec.push_back(org);
-		GetCirclePoints<float>(0.0, 180.0f, LineWidth, 16, 0.0f, len, vec);
-		CGL_Basic::CreateTrifan(vec, ar[3]);
-		//CGL_Basic::DrawTrifan(shader, ar);	
-		
-	}
+    {
+        // 2. Kappe
+        CVector2<float> org(0.0f, len);
+        std::vector<CVector2<float> > vec;
+        vec.push_back(org);
+        GetCirclePoints<float>(0.0, 180.0f, LineWidth, 16, 0.0f, len, vec);
+        CGL_Basic::CreateTrifan(vec, ar[3]);
+        //CGL_Basic::DrawTrifan(shader, ar);
+    }
 #endif
-	
-	
 }
 
 
@@ -148,8 +139,8 @@ void CLineData::Draw(
         mInit = true;
     }
     DrawLineData(shader);
-
 }
+
 
 void CLineData::DrawLineData(CGL_Shader_Blurline* shader)
 {
@@ -157,15 +148,15 @@ void CLineData::DrawLineData(CGL_Shader_Blurline* shader)
     shader->SetPos(mP1.x, mP1.y);
     shader->SetColor(mColor);
 
-    glEnableVertexAttribArray(shader->VertAttrib());	
+    glEnableVertexAttribArray(shader->VertAttrib());
     glEnableVertexAttribArray(shader->TextAttrib());
 
     CGL_Basic::DrawQuadTexCoords(shader, mAr[0]);
     CGL_Basic::DrawQuadTexCoords(shader, mAr[1]);
     CGL_Basic::DrawTrifan(shader, mAr[2]);
-    CGL_Basic::DrawTrifan(shader, mAr[3]);		
+    CGL_Basic::DrawTrifan(shader, mAr[3]);
 
 
     glDisableVertexAttribArray(shader->VertAttrib());
-    glDisableVertexAttribArray(shader->TextAttrib());	
+    glDisableVertexAttribArray(shader->TextAttrib());
 }

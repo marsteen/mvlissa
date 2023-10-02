@@ -1,4 +1,3 @@
-
 #include <GLline/CLineData.h>
 #include <GLline/CLineStrip.h>
 

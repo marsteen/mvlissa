@@ -5,15 +5,14 @@
 
 class CGL_Shader_Texture : public CGL_Shader
 {
-	public:
-	
-		void InitShader();
-		void UseTexture() const;
+    public:
 
-	protected: 
-	
-		int uTexture;
-		
+        void InitShader();
+        void UseTexture() const;
+
+    protected:
+
+        int uTexture;
 };
 
 #endif

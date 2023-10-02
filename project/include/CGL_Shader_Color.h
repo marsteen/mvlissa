@@ -5,9 +5,9 @@
 
 class CGL_Shader_Color : public CGL_Shader
 {
-  public:
-  
-    void InitShader();
+    public:
+
+        void InitShader();
 };
 
 #endif

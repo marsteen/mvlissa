@@ -10,10 +10,8 @@ typedef std::vector<CVector2<float> > TLinePoints;
 class CLineStrip
 {
     public:
-        
+
         static void Draw(CGL_Shader_Blurline* shader, const TLinePoints& points, float lw, const float* color);
-        
-        
 };
 
 #endif

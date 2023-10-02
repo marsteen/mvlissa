@@ -27,9 +27,9 @@
 class CContextLissa : public CGL_Context
 {
     public:
-        
+
         CContextLissa();
-        
+
 
         void Draw2D();
         bool Init(int w, int h);
@@ -41,11 +41,11 @@ class CContextLissa : public CGL_Context
 
         void CalcLissa(TLinePoints& LissaPoints, float horInit, float verInit, float verSpeed, float horSpeed);
 
-        CGL_Shader_Color*        mColorShader;
-        CGL_Shader_Blurline*     mBlurlineShader;
-        CGL_Shader_Texture*      mTextureShader;
-        CGL_Shader_Noise*        mNoiseShader;
-        
+        CGL_Shader_Color* mColorShader;
+        CGL_Shader_Blurline* mBlurlineShader;
+        CGL_Shader_Texture* mTextureShader;
+        CGL_Shader_Noise* mNoiseShader;
+
         int mSpeed;
         int mResolution;
         float mVerSpeed;

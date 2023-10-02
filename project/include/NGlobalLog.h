@@ -23,11 +23,9 @@ extern bool GlobalDebugEnabled;
 
 namespace NGlobalLog
 {
-	void gdlog();
-	void gderr();	
-	
-	
-};
+    void gdlog();
+    void gderr();
+}
 
 
 #endif
